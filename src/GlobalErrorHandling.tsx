@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface IErrorContext {
-    status: number;
+    status: 200 | 400 | 401 | 500;
     message: string;
 }
 
 const ErrorContext = createContext<{
     setErrorValue: (err: IErrorContext) => void;
 }>({
-    setErrorValue: () => {},
+    setErrorValue: () => { },
 });
 export const useError = () => {
     return useContext(ErrorContext);
@@ -25,8 +25,10 @@ const GlobalErrorHandling = ({ children }: { children: JSX.Element }) => {
             if (error.message !== "") {
                 alert(error.message);
             } else {
-                alert("something went wrong");
+                alert("Something went wrong");
             }
+        } else if (error.status === 401) {
+            window.location.pathname = "/logout";
         }
     }, [error]);
 

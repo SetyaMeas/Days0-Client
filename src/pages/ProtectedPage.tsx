@@ -9,6 +9,7 @@ async function fetchVerifyLogin() {
     });
     return res;
 }
+
 const ProtectedPage = () => {
     const { data } = useQuery({
         queryFn: fetchVerifyLogin,

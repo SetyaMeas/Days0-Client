@@ -1,4 +1,3 @@
-import TaskCollection from "../components/homePage/task/TaskCollection";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "./AuthProvider";
 import TaskPage from "../pages/TaskPage";
@@ -13,7 +12,7 @@ const ProtectedRoute = () => {
 
         return (
             <Routes>
-                <Route path="/" element={<TaskPage />} />
+                <Route path="/*" element={<TaskPage />} />
             </Routes>
         );
     }

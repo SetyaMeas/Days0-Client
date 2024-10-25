@@ -1,4 +1,3 @@
-// TODO: start working on task
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import AuthProvider from "./authentication/AuthProvider";
