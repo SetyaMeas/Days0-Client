@@ -4,6 +4,7 @@ import { useError } from "../GlobalErrorHandling";
 import SpinnerLoading from "../components/SpinnerLoading";
 import TaskListItem from "../components/homePage/task/TaskListItem";
 import TaskDetail from "../components/homePage/task/TaskDetail";
+import CreateTask from "../components/homePage/task/CreateTask";
 
 interface ITask {
     userId: number;
@@ -45,7 +46,7 @@ const TaskPage = () => {
         return await res.json();
     }
 
-    const { data, isError, isLoading } = useQuery({
+    const { data, isError, isLoading, refetch } = useQuery({
         queryKey: ["task_detail"],
         queryFn: fetchGetAllTasks,
     });
@@ -56,23 +57,17 @@ const TaskPage = () => {
         }
     }, [isError]);
 
-    // TODO: create task
+    const reFetchTask = async () => {
+        await refetch();
+    };
+
     return (
         <div className="w-full h-full flex justify-center items-center">
             <div
                 id="left-side-bar"
                 className="w-[400px] border-r-bdColor border-r-[1px] bg-default h-full p-[10px] flex flex-col items-center gap-[12px] overflow-y-hidden"
             >
-                <form className="w-full h-[36px] flex justify-between text-[white] gap-[6px]">
-                    <input
-                        type="text"
-                        placeholder="Enter task"
-                        className="w-full h-full text-[15px] text-[white] px-[6px] outline-none border-bdColor border bg-default rounded-[3px] focus:border-[#00990f]"
-                    />
-                    <button className="w-[80px] px-[6px] bg-[#00990f] h-full text-[15px] rounded-[2px] hover:opacity-90">
-                        + New
-                    </button>
-                </form>
+                <CreateTask refetchTask={reFetchTask} />
 
                 <hr className="bg-bdColor w-full h-[3px]" />
 

@@ -103,7 +103,7 @@ const LoginPage = () => {
                         {...register("email")}
                         type="text"
                         placeholder="Email address*"
-                        className="text-[18px] w-full h-[45px] bg-default border border-bdColor rounded-[3px] px-[9px]"
+                        className="text-[18px] w-full h-[45px] bg-default border border-bdColor rounded-[3px] px-[9px] outline-none focus:outline-[white]"
                     />
                     <p
                         ref={refPasswdMsg}

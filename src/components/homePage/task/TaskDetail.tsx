@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ITaskDetail } from "../../../pages/TaskPage";
+// TODO: seperate delete and show task detail
 const TaskDetail = ({
     day,
     hour,
@@ -59,15 +60,55 @@ const TaskDetail = ({
         return time;
     };
 
+    const refDeleteOpts = useRef<HTMLDivElement>(null);
+
     return (
         <div className="w-full h-full flex flex-col items-center justify-center text-[white]">
-            <div className="text-[white] flex">
-                <p className="text-[55px] font-bold mr-[10px]">
-                    {`Day ${totalDay} `}
-                </p>
-                <p className="text-[15px] h-[27px] px-[6px] bg-default border text-center  border-bdColor mt-[22px] rounded-[2px]">{`${formatValue(rHour)}h ${formatValue(rMinute)}m ${formatValue(rSecond)}s`}</p>
+            <div className="flex flex-row-reverse w-full text-[white] px-[15px] py-[15px] gap-[15px]">
+                <button
+                    onClick={() => {
+                        if (refDeleteOpts.current) {
+                            if (
+                                refDeleteOpts.current.style.visibility ===
+                                "hidden"
+                            ) {
+                                refDeleteOpts.current.style.opacity = "1";
+                                refDeleteOpts.current.style.visibility =
+                                    "visible";
+                            } else {
+                                refDeleteOpts.current.style.opacity = "0";
+                                refDeleteOpts.current.style.visibility =
+                                    "hidden";
+                            }
+                        }
+                    }}
+                    className="h-[40px] w-[40px] rounded-[2px] bg-[red] hover:opacity-90"
+                >
+                    <i className="fa-solid fa-trash"></i>
+                </button>
+                <div
+                    ref={refDeleteOpts}
+                    className="rounded-l-[2px] flex gap-[15px] h-full items-center duration-150 opacity-0 invisible"
+                >
+                    <button className="h-[30px] w-[80px] border text-[green] border-[green] rounded-[2px]">
+                        <i className="fa-solid fa-check mr-[10px]"></i>
+                        Yes
+                    </button>
+                    <button className="h-[30px] w-[80px] border text-[red] border-[red] rounded-[2px]">
+                        <i className="fa-solid fa-cancel mr-[10px]"></i>
+                        No
+                    </button>
+                </div>
             </div>
-            <p className="text-[35px] font-bold">{task}</p>
+            <div className="text-[white] flex flex-col h-full justify-center items-center">
+                <div className="flex gap-[10px]">
+                    <p className="text-[55px] font-bold">
+                        {`Day ${totalDay} `}
+                    </p>
+                    <p className="text-[15px] h-[27px] px-[6px] bg-default border text-center  border-bdColor mt-[22px] rounded-[2px]">{`${formatValue(rHour)}h ${formatValue(rMinute)}m ${formatValue(rSecond)}s`}</p>
+                </div>
+                <p className="text-[35px] font-bold">{task}</p>
+            </div>
         </div>
     );
 };
