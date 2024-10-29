@@ -59,7 +59,7 @@ const CreateTask = ({ refetchTask }: { refetchTask: () => Promise<void> }) => {
             />
             <button
                 disabled={mutation.isPending}
-                className="w-[80px] px-[6px] bg-[#00990f] h-full text-[15px] rounded-[2px] hover:opacity-90"
+                className="w-[80px] px-[6px] bg-myGreen h-full text-[15px] rounded-[2px] hover:opacity-90"
             >
                 + New
             </button>
