@@ -24,7 +24,7 @@ async function fetchVerifyLogin() {
 }
 
 const AuthProvider = ({ children }: { children: JSX.Element }) => {
-    const { setErrorValue } = useError();
+    const { setErrValue } = useError();
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [isLogin, setIsLogin] = useState<boolean>(false);
 
@@ -41,7 +41,11 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
     useEffect(() => {
         if (isError) {
-            setErrorValue({ status: 500, message: "" });
+            setErrValue({
+                code: 500,
+                msg: "Something went wrong",
+                status: "failed",
+            });
             setIsFetching(false);
         }
         if (data) {
@@ -50,7 +54,11 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
             } else if (data.status == 401) {
                 sessionStorage.setItem("login", "No");
             } else {
-                setErrorValue({ status: 500, message: "" });
+                setErrValue({
+                    code: 500,
+                    msg: "Something went wrong",
+                    status: "failed",
+                });
                 sessionStorage.setItem("login", "No");
             }
 

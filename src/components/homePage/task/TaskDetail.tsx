@@ -5,7 +5,6 @@ import AnimateTask from "./AnimateTask";
 const DeleteTask = ({ taskId }: { taskId: number }) => {
     const [showDeleteBtn, setShowDeleteBtn] = useState(true);
 
-    // TODO: finish delete task
     async function deletingTask() {
         const api = import.meta.env.VITE_API;
         const res = await fetch(`${api}/api/task/${taskId}`, {

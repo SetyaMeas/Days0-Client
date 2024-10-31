@@ -29,7 +29,7 @@ const LoginPage = () => {
         mutationKey: ["login"],
     });
 
-    const { setErrorValue } = useError();
+    const { setErrValue } = useError();
     const refEmailMsg = useRef<HTMLParagraphElement>(null);
     const refPasswdMsg = useRef<HTMLParagraphElement>(null);
     const refMsg = useRef<HTMLParagraphElement>(null);
@@ -72,10 +72,18 @@ const LoginPage = () => {
                     refMsg.current.style.display = "block";
                 }
             } else {
-                setErrorValue({ status: 500, message: "" });
+                setErrValue({
+                    code: 500,
+                    msg: "Something went wrong",
+                    status: "failed",
+                });
             }
         } catch (e) {
-            setErrorValue({ status: 500, message: "" });
+            setErrValue({
+                code: 500,
+                msg: "Something went wrong",
+                status: "failed",
+            });
         }
     };
 

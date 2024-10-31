@@ -6,7 +6,7 @@ const api = import.meta.env.VITE_API;
 
 const CreateTask = ({ refetchTask }: { refetchTask: () => Promise<void> }) => {
     const { register, reset, handleSubmit } = useForm<{ task: string }>();
-    const { setErrorValue } = useError();
+    const { setErrValue } = useError();
     const mutation = useMutation({
         mutationKey: ["create-task"],
         mutationFn: fetchCreateTask,
@@ -29,9 +29,17 @@ const CreateTask = ({ refetchTask }: { refetchTask: () => Promise<void> }) => {
             if (res.status === 400) {
                 alert("task can't be empty");
             } else if (res.status === 401) {
-                setErrorValue({ status: 401, message: "" });
+                setErrValue({
+                    status: "failed",
+                    msg: "Login Expired",
+                    code: 401,
+                });
             } else {
-                setErrorValue({ status: 500, message: "" });
+                setErrValue({
+                    status: "failed",
+                    msg: "Something went wrong",
+                    code: 500,
+                });
             }
             return;
         }

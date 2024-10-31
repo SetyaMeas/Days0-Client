@@ -25,7 +25,7 @@ const api = import.meta.env.VITE_API;
 
 const TaskPage = () => {
     const [date, setStartedDate] = useState<ITaskDetail | null>(null);
-    const { setErrorValue } = useError();
+    const { setErrValue } = useError();
 
     async function fetchGetAllTasks(): Promise<ITask[] | null> {
         const res = await fetch(`${api}/api/task/all`, {
@@ -35,11 +35,18 @@ const TaskPage = () => {
 
         if (!res.ok) {
             if (res.status == 401) {
-                alert("Login expired. Please login again");
-                setErrorValue({ status: 401, message: "" });
+                setErrValue({
+                    status: "failed",
+                    msg: "Login Expired",
+                    code: 401,
+                });
                 return null;
             } else {
-                setErrorValue({ status: 500, message: "" });
+                setErrValue({
+                    status: "failed",
+                    msg: "Something went wrong",
+                    code: 500,
+                });
                 return null;
             }
         }
@@ -53,7 +60,11 @@ const TaskPage = () => {
 
     useEffect(() => {
         if (isError) {
-            setErrorValue({ status: 500, message: "" });
+            setErrValue({
+                code: 500,
+                msg: "Something went wrong",
+                status: "failed",
+            });
         }
     }, [isError]);
 

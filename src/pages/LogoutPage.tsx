@@ -5,7 +5,7 @@ import { useError } from "../GlobalErrorHandling";
 const api = import.meta.env.VITE_API;
 
 const LogoutPage = () => {
-    const { setErrorValue } = useError();
+    const { setErrValue } = useError();
     const { data, isError } = useQuery({
         queryFn: async () => {
             const res = await fetch(`${api}/api/auth/logout`, {
@@ -19,7 +19,11 @@ const LogoutPage = () => {
 
     useEffect(() => {
         if (isError) {
-            setErrorValue({ status: 500, message: "" });
+            setErrValue({
+                code: 500,
+                msg: "Something went wrong",
+                status: "failed",
+            });
         }
         if (data) {
             if (data.status == 200) {
@@ -27,7 +31,11 @@ const LogoutPage = () => {
                 window.location.pathname = "/";
                 return;
             } else {
-                setErrorValue({ status: 500, message: "" });
+                setErrValue({
+                    code: 500,
+                    msg: "Something went wrong",
+                    status: "failed",
+                });
             }
         }
     }, [data, isError]);
