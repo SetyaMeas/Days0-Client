@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { isValidEmail } from "../utils/validator";
 import { useRef } from "react";
-import { useError } from "../GlobalErrorHandling";
+import { useErrorContext } from "../GlobalErrorHandling";
 
 const api = import.meta.env.VITE_API;
 interface IFormInput {
@@ -29,7 +29,7 @@ const LoginPage = () => {
         mutationKey: ["login"],
     });
 
-    const { setErrValue } = useError();
+    const { setErrValue } = useErrorContext();
     const refEmailMsg = useRef<HTMLParagraphElement>(null);
     const refPasswdMsg = useRef<HTMLParagraphElement>(null);
     const refMsg = useRef<HTMLParagraphElement>(null);

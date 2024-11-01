@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useError } from "../GlobalErrorHandling";
+import { useErrorContext } from "../GlobalErrorHandling";
 
 const api = import.meta.env.VITE_API;
 
 const LogoutPage = () => {
-    const { setErrValue } = useError();
+    const { setErrValue } = useErrorContext();
     const { data, isError } = useQuery({
         queryFn: async () => {
             const res = await fetch(`${api}/api/auth/logout`, {

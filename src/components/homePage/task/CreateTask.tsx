@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
-import { useError } from "../../../GlobalErrorHandling";
+import { useErrorContext } from "../../../GlobalErrorHandling";
 import { useMutation } from "@tanstack/react-query";
 
 const api = import.meta.env.VITE_API;
 
+// TODO: limit user to create task (only 15 tasks per user)
 const CreateTask = ({ refetchTask }: { refetchTask: () => Promise<void> }) => {
     const { register, reset, handleSubmit } = useForm<{ task: string }>();
-    const { setErrValue } = useError();
+    const { setErrValue } = useErrorContext();
     const mutation = useMutation({
         mutationKey: ["create-task"],
         mutationFn: fetchCreateTask,

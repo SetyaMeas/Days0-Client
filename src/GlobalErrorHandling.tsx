@@ -8,7 +8,7 @@ import {
 } from "react";
 
 interface IErrContext {
-    code: 401 | 500;
+    code: 401 | 500 | 200 | 400 | undefined;
     status: "success" | "failed" | "warning";
     msg: string;
 }
@@ -16,9 +16,9 @@ interface IErrContext {
 const ErrorContext = createContext<{
     setErrValue: (value: IErrContext) => void;
 }>({
-    setErrValue: () => {},
+    setErrValue: () => { },
 });
-export const useError = () => {
+export const useErrorContext = () => {
     return useContext(ErrorContext);
 };
 
@@ -27,10 +27,9 @@ const GlobalErrorHandling = ({ children }: { children: JSX.Element }) => {
     const [err, setErr] = useState<IErrContext>({
         status: "success",
         msg: "",
-        code: 500,
+        code: undefined,
     });
 
-    // TODO: test this function
     const toggleAlertMsg = (timeout: number) => {
         if (refAlertMsg.current) {
             refAlertMsg.current.style.right = "0px";
@@ -44,14 +43,16 @@ const GlobalErrorHandling = ({ children }: { children: JSX.Element }) => {
     };
 
     useEffect(() => {
-        if (err.status !== "success") {
+        if (err.code !== undefined) {
             if (err.code === 401) {
-                toggleAlertMsg(2000);
+                toggleAlertMsg(3000);
                 setTimeout(() => {
                     window.location.pathname = "/logout";
-                }, 2500);
+                }, 3500);
             } else if (err.code === 500) {
-                toggleAlertMsg(2000);
+                toggleAlertMsg(3000);
+            } else if (err.code === 200) {
+                toggleAlertMsg(3000);
             }
         }
     }, [err]);
@@ -64,6 +65,8 @@ const GlobalErrorHandling = ({ children }: { children: JSX.Element }) => {
             return "red";
         } else if (err.status === "warning") {
             return "orange";
+        } else if (err.status === "success") {
+            return "#00990f";
         }
         return "white";
     };
@@ -82,6 +85,7 @@ const GlobalErrorHandling = ({ children }: { children: JSX.Element }) => {
                     <p className="text-[15px] text-center">{err.msg}</p>
                 </div>
             </div>
+
             {children}
         </ErrorContext.Provider>
     );

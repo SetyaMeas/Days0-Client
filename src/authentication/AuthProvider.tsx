@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createContext, useContext, useEffect, useState } from "react";
-import { useError } from "../GlobalErrorHandling";
+import { useErrorContext } from "../GlobalErrorHandling";
 
 interface IAuthContext {
     isLogin: boolean;
@@ -24,7 +24,7 @@ async function fetchVerifyLogin() {
 }
 
 const AuthProvider = ({ children }: { children: JSX.Element }) => {
-    const { setErrValue } = useError();
+    const { setErrValue } = useErrorContext();
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [isLogin, setIsLogin] = useState<boolean>(false);
 

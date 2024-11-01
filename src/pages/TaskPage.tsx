@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useError } from "../GlobalErrorHandling";
+import { useErrorContext } from "../GlobalErrorHandling";
 import SpinnerLoading from "../components/SpinnerLoading";
 import TaskListItem from "../components/homePage/task/TaskListItem";
 import TaskDetail from "../components/homePage/task/TaskDetail";
@@ -19,13 +19,15 @@ export interface ITaskDetail {
     second: number;
     taskId: number;
     task: string;
+    unSelectTask: () => void;
+    refetchTask: () => Promise<void>;
 }
 
 const api = import.meta.env.VITE_API;
 
 const TaskPage = () => {
     const [date, setStartedDate] = useState<ITaskDetail | null>(null);
-    const { setErrValue } = useError();
+    const { setErrValue } = useErrorContext();
 
     async function fetchGetAllTasks(): Promise<ITask[] | null> {
         const res = await fetch(`${api}/api/task/all`, {
@@ -54,7 +56,7 @@ const TaskPage = () => {
     }
 
     const { data, isError, isLoading, refetch } = useQuery({
-        queryKey: ["task_detail"],
+        queryKey: ["all_tasks"],
         queryFn: fetchGetAllTasks,
     });
 
@@ -70,6 +72,10 @@ const TaskPage = () => {
 
     const reFetchTask = async () => {
         await refetch();
+    };
+
+    const unSelectTask = () => {
+        setStartedDate(null);
     };
 
     return (
@@ -114,12 +120,14 @@ const TaskPage = () => {
             <div id="right-side-bar" className="w-full h-full">
                 {date ? (
                     <TaskDetail
+                        refetchTask={reFetchTask}
                         day={date.day}
                         hour={date.hour}
                         minute={date.minute}
                         second={date.second}
                         taskId={date.taskId}
                         task={date.task}
+                        unSelectTask={unSelectTask}
                     />
                 ) : (
                     <div className="w-full h-full flex justify-center items-center text-[white]">
