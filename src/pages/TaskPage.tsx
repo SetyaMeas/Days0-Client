@@ -5,6 +5,7 @@ import SpinnerLoading from "../components/SpinnerLoading";
 import TaskListItem from "../components/homePage/task/TaskListItem";
 import TaskDetail from "../components/homePage/task/TaskDetail";
 import CreateTask from "../components/homePage/task/CreateTask";
+import Spinner from "../components/utils/Spinner";
 
 interface ITask {
     userId: number;
@@ -91,7 +92,12 @@ const TaskPage = () => {
                 <ol className="h-full list-decimal text-[18px] w-full text-[white] list-inside">
                     {isLoading ? (
                         <div className="w-full flex justify-center h-full items-center">
-                            <SpinnerLoading bg="white" />
+                            <Spinner
+                                size="20px"
+                                borderWidth="3px"
+                                borderColor="white"
+                                borderTopColor="gray"
+                            />
                         </div>
                     ) : null}
 

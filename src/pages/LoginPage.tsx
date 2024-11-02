@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { isValidEmail } from "../utils/validator";
 import { useRef } from "react";
 import { useErrorContext } from "../GlobalErrorHandling";
+import Spinner from "../components/utils/Spinner";
 
 const api = import.meta.env.VITE_API;
 interface IFormInput {
@@ -125,8 +126,20 @@ const LoginPage = () => {
                         placeholder="Password*"
                         className="text-[18px] w-full h-[45px] bg-default border border-bdColor rounded-[3px] px-[9px]"
                     />
-                    <button className="w-full h-[45px] text-center text-[black] bg-[white] rounded-[3px] hover:opacity-90 text-[18px]">
-                        {mutation.isPending ? "Loading..." : "Login"}
+                    <button
+                        disabled={mutation.isPending}
+                        className="w-full h-[45px] text-[black] bg-[white] rounded-[3px] hover:opacity-90 text-[18px] flex justify-center items-center"
+                    >
+                        {mutation.isPending ? (
+                            <Spinner
+                                size="18px"
+                                borderWidth="3px"
+                                borderColor="black"
+                                borderTopColor="gray"
+                            />
+                        ) : (
+                            "Login"
+                        )}
                     </button>
                 </form>
                 <p className="text-[white] text-[15px]">

@@ -11,6 +11,7 @@ import ProtectedPage from "./pages/ProtectedPage";
 
 const queryClient = new QueryClient();
 
+// TODO: doing some responsive 
 const App = () => {
     return (
         <QueryClientProvider client={queryClient}>

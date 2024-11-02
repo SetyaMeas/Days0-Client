@@ -49,9 +49,7 @@ const GlobalErrorHandling = ({ children }: { children: JSX.Element }) => {
                 setTimeout(() => {
                     window.location.pathname = "/logout";
                 }, 3500);
-            } else if (err.code === 500) {
-                toggleAlertMsg(3000);
-            } else if (err.code === 200) {
+            } else {
                 toggleAlertMsg(3000);
             }
         }

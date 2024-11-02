@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useErrorContext } from "../../../GlobalErrorHandling";
 import { useMutation } from "@tanstack/react-query";
+import Spinner from "../../utils/Spinner";
 
 const api = import.meta.env.VITE_API;
 
-// TODO: limit user to create task (only 15 tasks per user)
 const CreateTask = ({ refetchTask }: { refetchTask: () => Promise<void> }) => {
     const { register, reset, handleSubmit } = useForm<{ task: string }>();
     const { setErrValue } = useErrorContext();
@@ -28,12 +28,22 @@ const CreateTask = ({ refetchTask }: { refetchTask: () => Promise<void> }) => {
 
         if (!res.ok) {
             if (res.status === 400) {
-                alert("task can't be empty");
+                setErrValue({
+                    status: "warning",
+                    msg: "Task can't be empty",
+                    code: 400,
+                });
             } else if (res.status === 401) {
                 setErrValue({
                     status: "failed",
                     msg: "Login Expired",
                     code: 401,
+                });
+            } else if (res.status === 429) {
+                setErrValue({
+                    status: "warning",
+                    msg: "Task limit is 15",
+                    code: 400,
                 });
             } else {
                 setErrValue({
@@ -68,9 +78,18 @@ const CreateTask = ({ refetchTask }: { refetchTask: () => Promise<void> }) => {
             />
             <button
                 disabled={mutation.isPending}
-                className="w-[80px] px-[6px] bg-myGreen h-full text-[15px] rounded-[2px] hover:opacity-90"
+                className="w-[90px] bg-myGreen h-full text-[15px] rounded-[2px] hover:opacity-90 flex justify-center items-center"
             >
-                + New
+                {mutation.isPending ? (
+                    <Spinner
+                        size="15px"
+                        borderWidth="2px"
+                        borderColor="white"
+                        borderTopColor="gray"
+                    />
+                ) : (
+                    "+ New"
+                )}
             </button>
         </form>
     );
